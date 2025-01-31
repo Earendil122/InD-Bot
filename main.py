@@ -3,10 +3,10 @@ import random
 import discord
 from discord.ext import commands
 from random import choice, randint
-import os # default module
+import os 
 from dotenv import load_dotenv
 
-load_dotenv() # load all the variables from the env file
+load_dotenv()
 bot = commands.Bot(command_prefix=".", intents=discord.Intents.all())
 
 @bot.event
@@ -21,39 +21,41 @@ async def on_ready():
 @bot.tree.command(name="los", description="Tutaj zadecyduje się twoje przeznaczenie!")
 async def los(interaction: discord.Interaction):
     liczba = random.randint(1, 100)
-    if liczba == 1:
-        kolor = discord.Color.gold()
-        opis = "**1 - Krytyczny Sukces!**"
-    elif liczba == 4:
-        kolor = discord.Color.blue()
-        opis = "**4 - Błogosławieństwo!**"
-    elif liczba == 7:
-        kolor = discord.Color.red()
-        opis = "**7 - Pech!**"
-    elif liczba == 8:
-        kolor = discord.Color.green()
-        opis = "**8 - Szczęście!**"
-    elif liczba == 12:
-        kolor = discord.Color.dark_gold()
-        opis = "**12 - Siła!**"
-    elif liczba == 44:
-        kolor = discord.Color.dark_blue()
-        opis = "**44 - Dar od Bogów!**"
-    elif liczba == 69:
-        kolor = discord.Color.pink()
-        opis = ":heart_eyes:**69 - Miłość!**:heart_eyes:"
-    elif liczba == 77:
-        kolor = discord.Color.dark_red()
-        opis = "**77 - Klątwa Losa!**"
-    elif liczba == 88:
-        kolor = discord.Color.dark_green()
-        opis = "**88 - Dar od Losa!**"
-    elif liczba == 100:
-        kolor = discord.Color.default()
-        opis = "**100 - Krytyczna Porażka!**"
-    else:
-        kolor = discord.Color.dark_gray()
-        opis = f"**{liczba} - Nic się nie wydarzy!**"
+    
+    match liczba:
+        case 1:
+            kolor = discord.color.gold()
+            opis = "**Krytyczny Sukces!**"
+        case 4:
+            kolor = discord.color.blue()
+            opis = "**Błogosławieństwo!**"
+        case 7:
+            kolor = discord.color.red()
+            opis = "**7 - Pech!**"
+        case 8:
+            kolor = discord.color.green()
+            opis = "**8 - Szczęście**"
+        case 12:
+            kolor = discord.color.dark_gold()
+            opis = "**12 - Siła!**"
+        case 44:
+            kolor = discord.color.dark_blue()
+            opis = "**44 - Dar od Bogów**"
+        case 69:
+            kolor = discord.color.pink()
+            opis = ":heart_eyes: **69 - Miłość!** :heart_eyes:"
+        case 77:
+            kolor = discord.color.dark_red()
+            opis = "**77 - Klątwa Losa!**"
+        case 88:
+            kolor = discord.color.dark_green()
+            opis = "**88 - Dar od Losa!**"
+        case 100:
+            kolor = discord.color.default()
+            opis = "**100 - Krytyczna Porażka**"
+        case default:
+            kolor = discord.color.dark_gray()
+            opis = f"**{liczba} - Nic się nie wydarzy**"
 
     embed = discord.Embed(
         title="Los przepowiedział",
@@ -64,4 +66,4 @@ async def los(interaction: discord.Interaction):
 
 
 
-bot.run(os.getenv('DISCORD_TOKEN')) # run the bot with the token
+bot.run(os.getenv('DISCORD_TOKEN'))
