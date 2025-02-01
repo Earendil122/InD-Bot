@@ -63,7 +63,13 @@ async def los(interaction: discord.Interaction):
         color=kolor
     )
     await interaction.response.send_message(embed=embed)
-
+@bot.tree.command(name="loss", description="Tutaj zadecyduje się twoje przeznaczenie!")
+async def loss(interaction: discord.Interaction)
+    embed = discord.Embed(
+        title = "Loss"
+        description = "~~:.|:;~~"
+        color = discord.color.blue() 
+    )
 
 
 bot.run(os.getenv('DISCORD_TOKEN'))
