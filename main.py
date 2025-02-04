@@ -27,6 +27,17 @@ async def loss(interaction: discord.Interaction):
     )
     await interaction.response.send_message(embed=embed)
 
+@bot.tree.command(name="staty", description="Rzucaj tym sobie na statystyki.")
+async def staty(interaction: discord.Interaction):
+
+    numbers = [6 + random.randint(1, 6) + random.randint(1, 6) for _ in range(6)]
+
+    embed = discord.Embed(
+        title="Oto twoje statystyki, przydzielaj mądrze.",
+        description=f"**{numbers}**",
+        color=discord.Color.blue()
+    )
+    await interaction.response.send_message(embed=embed)
 
 @bot.tree.command(name="los", description="Tutaj zadecyduje się twoje przeznaczenie!")
 async def los(interaction: discord.Interaction):
