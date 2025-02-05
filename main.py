@@ -9,6 +9,84 @@ from dotenv import load_dotenv
 load_dotenv()
 bot = commands.Bot(command_prefix=".", intents=discord.Intents.all())
 
+RUNE_MAP = {
+    'A': 'ᚠ',
+    'B': 'ᚢ',
+    'C': 'ᚦ',
+    'D': 'ᚨ',
+    'E': 'ᚱ',
+    'F': 'ᚲ',
+    'G': 'ᚷ',
+    'H': 'ᚺ',
+    'I': 'ᛃ',
+    'J': 'ᛇ',
+    'K': 'ᛉ',
+    'L': 'ᛊ',
+    'M': 'ᛏ',
+    'N': 'ᚢ',
+    'O': 'ᛒ',
+    'P': 'ᛖ',
+    'Q': 'ᛗ',
+    'R': 'ᚾ',
+    'S': 'ᛟ',
+    'T': 'ᛈ',
+    'U': 'ᛉ',
+    'W': 'ᚱ',
+    'X': 'ᛋ',
+    'Y': 'ᚹ',
+    'Z': 'ᛃ'
+}
+
+REVERSE_RUNE_MAP = {
+    'ᚠ': 'A',
+    'ᚢ': 'B',
+    'ᚦ': 'C',
+    'ᚨ': 'D',
+    'ᚱ': 'E',
+    'ᚲ': 'F',
+    'ᚷ': 'G',
+    'ᚺ': 'H',
+    'ᛃ': 'I',
+    'ᛇ': 'J',
+    'ᛉ': 'K',
+    'ᛊ': 'L',
+    'ᛏ': 'M',
+    'ᛒ': 'O',
+    'ᛖ': 'P',
+    'ᛗ': 'Q',
+    'ᚾ': 'R',
+    'ᛟ': 'S',
+    'ᛈ': 'T',
+    'ᚹ': 'Y'
+}
+
+def translate_to_runes(text: str) -> str:
+    """Funkcja zamienia litery z tekstu na odpowiadające im runy.
+       Litery zamieniane są niezależnie od wielkości (wszystko na uppercase).
+       Pozostałe znaki pozostają bez zmian."""
+    result = ""
+    for ch in text:
+        upper_ch = ch.upper()
+        if upper_ch in RUNE_MAP:
+            result += RUNE_MAP[upper_ch]
+        else:
+            result += ch
+    return result
+
+def detranslate_from_runes(text: str) -> str:
+    """Funkcja zamienia runy na odpowiadające im litery.
+       Znaki, które nie są runami, pozostają bez zmian."""
+    result = ""
+    for ch in text:
+        if ch in REVERSE_RUNE_MAP:
+            result += REVERSE_RUNE_MAP[ch]
+        else:
+            result += ch
+    return result
+
+
+
+
 @bot.event
 async def on_ready():
     print("bot is ready and online!")
@@ -17,6 +95,16 @@ async def on_ready():
         print(f"Synaced {len(synced_commands)} commands.")
     except Exception as e:
         print("An error with syncing application commands has occurred: ",e)
+
+@bot.tree.command(name="translator", description="Tłumaczy z naszego na starożytny")
+async def translator(interaction: discord.Interaction, text: str):
+    translated = translate_to_runes(text)
+    await interaction.response.send_message(f"{translated}")
+
+@bot.tree.command(name="detranslator", description="Tłumaczy z starożytnego na nasze")
+async def detranslator(interaction: discord.Interaction, text: str):
+    translated = detranslate_from_runes(text)
+    await interaction.response.send_message(f"{translated}")
 
 @bot.tree.command(name="loss", description="Is this Loss?")
 async def loss(interaction: discord.Interaction):
