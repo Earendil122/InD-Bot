@@ -65,6 +65,10 @@ REVERSE_RUNE_MAP = {
     'ᛃ': 'Z',
 }
 
+TRIGGER_WORDS = ["furry", "mink", "tabaxi"]
+TRIGGER_WORD2 = "nie jestem"
+
+
 def translate_to_runes(text: str) -> str:
     """Funkcja zamienia litery z tekstu na odpowiadające im runy.
        Litery zamieniane są niezależnie od wielkości (wszystko na uppercase).
@@ -177,6 +181,19 @@ async def los(interaction: discord.Interaction):
         color=kolor
     )
     await interaction.response.send_message(embed=embed)
+
+@bot.event
+async def on_message(message):
+    if message.author == bot.user:
+        return
+
+    if any(word in message.content.lower() for word in TRIGGER_WORDS):
+        if TRIGGER_WORD2 in message.content.lower():
+            await message.reply("Nie kłam!")
+        else:
+            await message.reply("Wypierdalaj furrasie!!!")
+
+    await bot.process_commands(message)
 
 
 
